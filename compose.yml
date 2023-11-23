@@ -5,18 +5,19 @@ services:
     build:
       context: ./core
     container_name: "core"
+    command: ["sh", "./start.sh"]
     volumes:
       - ./core:/app
       - static:/static
       - media:/media
     env_file:
       - ./.envs/.locals/.django
-    depends_on:
-      - postgres
+    restart: always
   frontend:
     build:
       context: ./frontend
     container_name: "frontend"
+    command: ["sh", "./start.sh"]
     volumes:
       - ./frontend:/app
   postgres:

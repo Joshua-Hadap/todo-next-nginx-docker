@@ -9,5 +9,3 @@ RUN pip install -r /requirements.txt
 WORKDIR /app
 
 COPY . .
-
-CMD ["sh", "./start.sh"]
