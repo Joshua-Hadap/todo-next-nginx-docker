@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  core:
+    build:
+      context: ./core
+    container_name: "core"
+    volumes:
+      - ./core:/app
+      - static:/static
+      - media:/media
+    env_file:
+      - ./.envs/.locals/.django
+    depends_on:
+      - postgres
+  frontend:
+    build:
+      context: ./frontend
+    container_name: "frontend"
+    volumes:
+      - ./frontend:/app
+  postgres:
+    image: postgres:16.1-alpine3.18
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.envs/.locals/.django
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - 80:80
+    volumes:
+      - static:/static
+      - media:/media
+    depends_on:
+      - core
+      - frontend
+
+volumes:
+  postgres_data:
+  static:
+  media:
