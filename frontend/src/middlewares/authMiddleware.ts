@@ -3,6 +3,7 @@ import verifyToken from "../lib/auth/verifyToken";
 import refreshToken from "../lib/auth/refreshToken"
 
 const SERVER_URL = process.env.SERVER_URL
+const SERVER_PORT = process.env.SERVER_PORT
 
 type Props = {
     request: NextRequest
@@ -13,12 +14,13 @@ export default async function auth(request: Props["request"]) {
     const pathname = request.nextUrl.pathname
     const access_token = request.cookies.get("access_token")?.value
     const refresh_token = request.cookies.get("refresh_token")?.value
+    const requestUrl = `${request.nextUrl.protocol}//${request.nextUrl.hostname}:${SERVER_PORT}${pathname}`
 
     const noToken = !access_token || !refresh_token
 
     if (noToken){
         if (pathname !== "/login"){
-            return NextResponse.redirect(new URL("/login", request.url))
+            return NextResponse.redirect(new URL("/login", requestUrl))
         }
         if (pathname === "/login") return NextResponse.next()
     }
@@ -34,7 +36,7 @@ export default async function auth(request: Props["request"]) {
     }
 
     if (!tokenVerification.ok && pathname !== "/login"){
-        return NextResponse.redirect(new URL("/login", request.url))
+        return NextResponse.redirect(new URL("/login", requestUrl))
     }
 
     if (!tokenVerification.ok){
@@ -52,6 +54,6 @@ export default async function auth(request: Props["request"]) {
         return nextResponse
     }
     if (pathname === "/login"){
-        return NextResponse.redirect(new URL("/", request.url));
+        return NextResponse.redirect(new URL("/", requestUrl));
     }
 }
