@@ -40,4 +40,5 @@ core/*.log
 core/*.pot
 core/*.pyc
 core/core/__pycache__
+core/todo/__pycache__
 venv/
