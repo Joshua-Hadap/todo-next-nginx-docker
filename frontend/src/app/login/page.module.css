@@ -1,0 +1,21 @@
+.loginContainer {
+    margin: auto;
+    margin-top: 20vh;
+    max-width: 80vh;
+}
+
+.loginHeader {
+
+    background-color: rgb(13, 81, 207);
+    color: white;
+    border-radius: 5px 5px 0px 0px;
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+.loginBody {
+
+    box-sizing: border-box;
+    padding: 15px;
+    height: auto;
+}
